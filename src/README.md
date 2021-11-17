@@ -1,5 +1,5 @@
 Stage 2 objectives: 
-[]Create unique ID's with the recipe object
+[x]Create unique ID's with the recipe object
 []Adjust POST request to respond with a JSON object that includes only
     the ID field && Http.status.code of 200.
 [x]Refactor recipe object's fields for ingredients and directions to be

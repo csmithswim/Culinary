@@ -11,14 +11,14 @@ public class RecipeController {
     List<Recipe> recipes = new ArrayList<>();
 
     @PostMapping("/api/recipe")
-    public List<Recipe> postRecipe(@RequestBody Recipe recipe) {
+    public int postRecipe(@RequestBody Recipe recipe) {
         recipes.add(recipe);
-        return recipes;
+        return recipes.size() - 1;
     }
 
-    @GetMapping("/api/recipe")
-    Recipe getRecipes() {
-        return recipes.get(recipes.size() - 1);
+    @GetMapping("/api/{id}")
+    Recipe getRecipes(@PathVariable int id) {
+        return recipes.get(id - 1);
     }
 
 
