@@ -10,15 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "recipe")
 public class Recipe {
     @Id
     @GeneratedValue
+    private Long id;
     String name;
-    String description;
+    String   description;
     String[] ingredients;
     String[] directions;
+
+    public Recipe() {}
+
+    public Recipe(String name, String description, String[] ingredients, String[] directions) {
+        this.name        = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.directions  = directions;
+    }
 }
+
