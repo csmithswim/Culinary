@@ -31,6 +31,11 @@ public class RecipeController {
         return repository.save(recipe);
     }
 
+    @DeleteMapping("api/recipe/{id}")
+    public void deleteById(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
+
 
 }
 
