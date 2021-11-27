@@ -1,6 +1,5 @@
 package culinary.example.demo.businessLayer;
 
-import culinary.example.demo.persistanceLayer.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -9,20 +8,19 @@ import culinary.example.demo.persistanceLayer.RecipeRepository;
 
 @Service
 public class RecipeService {
-    private final RecipeRepository recipeRepository;
-
+    private final RecipeRepository repository;
 
     @Autowired
-    public RecipeService(RecipeRepository recipeRepository) {
-        this.recipeRepository = recipeRepository;
+    public RecipeService(RecipeRepository repository) {
+        this.repository = repository;
     }
 
     public Recipe save(Recipe newRecipe) {
-        return recipeRepository.save(newRecipe);
-    }
+        return repository.save(newRecipe);
+      }
 
     public Recipe findRecipeById(Long id) {
-        return recipeRepository.findById(id)
+        return repository.findById(id)
                 .orElseThrow(() ->
                         new ResponseStatusException(HttpStatus.NOT_FOUND,
                                 "Recipe not found for id = " + id));
@@ -30,6 +28,7 @@ public class RecipeService {
 
     public void deleteRecipeById(Long id) {
         Recipe recipe = findRecipeById(id);
-        recipeRepository.delete(recipe);
+        repository.delete(recipe);
     }
+
 }

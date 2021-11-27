@@ -1,50 +1,56 @@
 package culinary.example.demo.presentationLayer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import culinary.example.demo.persistanceLayer.RecipeRepository;
-import culinary.example.demo.businessLayer.Recipe;
+import culinary.example.demo.businessLayer.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
-
+import culinary.example.demo.businessLayer.Recipe;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/recipe")
+@RequestMapping("/api")
 public class RecipeController {
+    final RecipeService recipeService;
 
     @Autowired
-    private RecipeRepository repository;
-
-    List<Recipe> recipes = new ArrayList<>();
-
-
-    //Objective 3 GET route
-    @JsonIgnore
-    @JsonProperty(value = "id")
-    @GetMapping("/{id}")
-    public @ResponseBody Recipe getById(@PathVariable Long id) {
-
-        return repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
     }
 
-    @PostMapping("/new")
-    public Map<String,Long>  postRecipe(@Valid @RequestBody Recipe recipe) {
-        repository.save(recipe);
-        long id = recipe.getId();
-        return Map.of("id", id);
+    @PostMapping("/recipe/new")
+    public Object postRecipe(@Valid @RequestBody Recipe recipe) {
+        Recipe newRecipe = recipeService.save(recipe);
+        return String.format("{\"id\": %d}", newRecipe.getId());
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        repository.deleteById(id);
+    //Need to implement this for stage 4
+    @PutMapping("/recipe/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public Recipe putRecipe(@Valid @RequestBody Recipe newRecipe, @PathVariable Long id) {
+        Recipe recipe = recipeService.findRecipeById(id);
+        recipe.setCategory(newRecipe.getCategory());
+        recipe.setDate(newRecipe.getDate());
+        recipe.setDescription(newRecipe.getDescription());
+        recipe.setDirections(newRecipe.getDirections());
+        recipe.setName(newRecipe.getName());
+        return recipeService.save(recipe);
     }
+
+
+    @GetMapping("/recipe/{id}")
+    public Recipe getRecipe(@PathVariable long id) {
+        return recipeService.findRecipeById(id);
+    }
+
+    @DeleteMapping("/recipe/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteRecipe(@PathVariable long id) {
+        recipeService.deleteRecipeById(id);
+    }
+
+
+
 
 
 }

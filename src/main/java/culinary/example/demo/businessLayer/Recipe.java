@@ -32,8 +32,7 @@ public class Recipe {
     @NotBlank(message = "Category is mandatory")
     private String category;
 
-    @NotNull
-    @Size(min = 8)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private LocalDateTime date;
 
     @NotNull(message = "Ingredients shouldn't be null")
@@ -45,8 +44,6 @@ public class Recipe {
     @Size(min = 1, message = "Minimal size should be 1")
     @ElementCollection
     private List<String> directions;
-
-
 
 }
 
