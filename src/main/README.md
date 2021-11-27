@@ -2,7 +2,7 @@ Stage 4 objectives:
 In this stage, the recipe structure should contain two new fields:
 [x] category represents a category of a recipe. The field has the same restrictions as name and description. It shouldn't be blank;
 
-[]date stores the date when the recipe has been added (or the last update). You can use any date/time format, for example 2021-09-05T18:34:48.227624 (the default 
+[x]date stores the date when the recipe has been added (or the last update). You can use any date/time format, for example 2021-09-05T18:34:48.227624 (the default 
 LocalDateTime format), but the field should have at least 8 characters.
 
 Also, the service should support the following endpoints:

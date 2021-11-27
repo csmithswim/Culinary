@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -31,6 +32,10 @@ public class Recipe {
     @NotBlank(message = "Category is mandatory")
     private String category;
 
+    @NotNull
+    @Size(min = 8)
+    private LocalDateTime date;
+
     @NotNull(message = "Ingredients shouldn't be null")
     @Size(min = 1, message = "Minimal size should be 1")
     @ElementCollection
@@ -40,6 +45,8 @@ public class Recipe {
     @Size(min = 1, message = "Minimal size should be 1")
     @ElementCollection
     private List<String> directions;
+
+
 
 }
 
