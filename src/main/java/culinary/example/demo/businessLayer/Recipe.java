@@ -28,6 +28,9 @@ public class Recipe {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
+    @NotBlank(message = "Category is mandatory")
+    private String category;
+
     @NotNull(message = "Ingredients shouldn't be null")
     @Size(min = 1, message = "Minimal size should be 1")
     @ElementCollection
@@ -37,5 +40,6 @@ public class Recipe {
     @Size(min = 1, message = "Minimal size should be 1")
     @ElementCollection
     private List<String> directions;
+
 }
 
