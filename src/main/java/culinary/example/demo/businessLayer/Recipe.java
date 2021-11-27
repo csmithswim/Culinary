@@ -18,6 +18,7 @@ import java.util.List;
 @Entity
 @Table(name = "recipe")
 public class Recipe {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -26,14 +27,13 @@ public class Recipe {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @NotBlank(message = "Description is mandatory")
-    private String description;
-
     @NotBlank(message = "Category is mandatory")
     private String category;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private LocalDateTime date;
+
+    @NotBlank(message = "Description is mandatory")
+    private String description;
 
     @NotNull(message = "Ingredients shouldn't be null")
     @Size(min = 1, message = "Minimal size should be 1")
@@ -45,5 +45,5 @@ public class Recipe {
     @ElementCollection
     private List<String> directions;
 
-}
 
+}

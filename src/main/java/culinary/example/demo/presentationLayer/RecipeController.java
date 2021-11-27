@@ -1,12 +1,15 @@
 package culinary.example.demo.presentationLayer;
 
-import culinary.example.demo.businessLayer.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import culinary.example.demo.businessLayer.Recipe;
+import  culinary.example.demo.businessLayer.Recipe;
+import  culinary.example.demo.businessLayer.RecipeService;
+
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -20,23 +23,10 @@ public class RecipeController {
 
     @PostMapping("/recipe/new")
     public Object postRecipe(@Valid @RequestBody Recipe recipe) {
+        recipe.setDate(LocalDateTime.now());
         Recipe newRecipe = recipeService.save(recipe);
         return String.format("{\"id\": %d}", newRecipe.getId());
     }
-
-    //Need to implement this for stage 4
-    @PutMapping("/recipe/{id}")
-    @ResponseStatus(code = HttpStatus.NO_CONTENT)
-    public Recipe putRecipe(@Valid @RequestBody Recipe newRecipe, @PathVariable Long id) {
-        Recipe recipe = recipeService.findRecipeById(id);
-        recipe.setCategory(newRecipe.getCategory());
-        recipe.setDate(newRecipe.getDate());
-        recipe.setDescription(newRecipe.getDescription());
-        recipe.setDirections(newRecipe.getDirections());
-        recipe.setName(newRecipe.getName());
-        return recipeService.save(recipe);
-    }
-
 
     @GetMapping("/recipe/{id}")
     public Recipe getRecipe(@PathVariable long id) {
@@ -49,9 +39,15 @@ public class RecipeController {
         recipeService.deleteRecipeById(id);
     }
 
+    @PutMapping("/recipe/{id}")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void updateRecipe(@PathVariable long id, @Valid @RequestBody Recipe recipe) {
+        recipeService.updateRecipe(id, recipe);
+    }
 
-
-
+    @GetMapping("/recipe/search/")
+    public List<Recipe> searchRecipeByCategory(@RequestParam Map<String, String> allParams) {
+        return recipeService.searchRecipesBy(allParams);
+    }
 
 }
-
